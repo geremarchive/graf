@@ -2,6 +2,14 @@
 
 A CLI data grapher
 
+# What is it?
+
+Graf is a simple program that allows you to turn any numerical data into fraction bar or percent bar for use in scripts.
+
+# Picture
+
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+
 # Usage
 
 ```
