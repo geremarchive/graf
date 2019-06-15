@@ -22,7 +22,8 @@ Graph data in a visually pleasing way
 
 -h, --help: Display this information.
 -s=n, --scale=n: Scale the bar to a certain size, the default is 30.
--p, --percent: Get a percentage graph.`
+-p, --percent: Get a percentage graph.
+-ps=n, --percentscale=n`
 
 func intArr(strNums []string) (out []int) {
 	for _, elem := range strNums {
@@ -63,12 +64,11 @@ func dispBar(nums []int, char string) {
 	fmt.Println("")
 }
 
-func scaleBar(data []string, size float64) {
-	nums := intArr(data)
-	total := total(nums)
+func scaleBar(data []int, size float64) {
+	total := total(data)
 	var fractions []float64
 
-	for _, elem := range nums {
+	for _, elem := range data {
 		fractions = append(fractions, (float64(elem)/float64(total))*size)
 	}
 
@@ -82,10 +82,32 @@ func main() {
 		if os.Args[1] == "-h" || os.Args[1] == "--help" {
 			fmt.Println(helpm)
 		} else if os.Args[1] == "-s" || os.Args[1] == "--scale" {
-			scaleBar(os.Args[2:], 30)
-		} else if strings.ContainsAny(os.Args[1], "-s=") || strings.ContainsAny(os.Args[1], "-scale=") {
-			num, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
-			scaleBar(os.Args[2:], float64(num))
+			scaleBar(intArr(os.Args[2:]), 30)
+		} else if os.Args[1] == "-p" || os.Args[1] == "--percent" {
+			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
+				color.New(color.FgRed, color.Bold).Println("Error: Only two arguments needed")
+			} else {
+				nums := intArr(os.Args[2:])
+				dispBar([]int{nums[0], nums[1]-nums[0]}, bar)
+			}
+		} else if os.Args[1] == "-ps" || os.Args[1] == "--percentscale"{
+			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
+				color.New(color.FgRed, color.Bold).Println("Error: Only two arguments needed")
+			} else {
+				nums := intArr(os.Args[2:])
+				scaleBar([]int{nums[0], nums[1]-nums[0]}, 30)
+			}
+		} else if strings.Contains(os.Args[1], "-ps=") || strings.Contains(os.Args[1], "-percentscale=") {
+			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
+				color.New(color.FgRed, color.Bold).Println("Error: Only two arguments needed")
+			} else {
+				nums := intArr(os.Args[2:])
+				size, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
+				scaleBar([]int{nums[0], nums[1]-nums[0]}, float64(size))
+			}
+		} else if strings.Contains(os.Args[1], "-s=") || strings.Contains(os.Args[1], "-scale=") {
+			size, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
+			scaleBar(intArr(os.Args[1:]), float64(size))
 		} else {
 			dispBar(intArr(os.Args[1:]), bar)
 		}
