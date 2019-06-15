@@ -21,7 +21,8 @@ const helpm = `Usage: graf [NUMBER]...
 Graph data in a visually pleasing way
 
 -h, --help: Display this information.
--s=n, --scale=n: Scale the bar to a certain size, the default is 30.`
+-s=n, --scale=n: Scale the bar to a certain size, the default is 30.
+-p, --percent: Get a percentage graph.`
 
 func intArr(strNums []string) (out []int) {
 	for _, elem := range strNums {
@@ -86,7 +87,7 @@ func main() {
 			num, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
 			scaleBar(os.Args[2:], float64(num))
 		} else {
-			dispBar(intArr(os.Args[2:]), bar)
+			dispBar(intArr(os.Args[1:]), bar)
 		}
 	}
 }
