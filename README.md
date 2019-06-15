@@ -2,6 +2,8 @@
 
 A CLI data grapher
 
+# Usage
+
 ```
 Usage: graf [NUMBER]...
 Graph data in a visually pleasing way
