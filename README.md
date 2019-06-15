@@ -8,7 +8,7 @@ Graf is a simple program that allows you to turn any numerical data into fractio
 
 # Picture
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![graf](https://raw.githubusercontent.com/geremachek/graf/master/graf.png)
 
 # Usage
 
