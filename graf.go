@@ -6,8 +6,8 @@ import (
 	"math/rand"
 	"strconv"
 	"time"
-	"github.com/gookit/color"
 	"strings"
+	"escape"
 )
 
 var (
@@ -51,13 +51,13 @@ func dispBar(nums []int, char string) {
 	rn := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for _, elem := range nums {
 		var (
-			r uint8 = uint8(rn.Intn(255))
-			g uint8 = uint8(rn.Intn(255))
-			b uint8 = uint8(rn.Intn(255))
+			r int = rn.Intn(255)
+			g int = rn.Intn(255)
+			b int = rn.Intn(255)
 		)
 
 		for i := 0; i < elem; i++ {
-			color.RGB(r, g, b).Print(char)
+			fmt.Print(escape.Vint(38, 2, r, g, b) + char + escape.Vint(0))
 		}
 	}
 
@@ -77,7 +77,7 @@ func scaleBar(data []int, size float64) {
 
 func main() {
 	if len(os.Args) == 1 {
-		color.New(color.FgRed, color.Bold).Println(err)
+		fmt.Println(escape.Vint(31, 1) + err + escape.Vint(0))
 	} else {
 		if os.Args[1] == "-h" || os.Args[1] == "--help" {
 			fmt.Println(helpm)
@@ -85,21 +85,21 @@ func main() {
 			scaleBar(intArr(os.Args[2:]), 30)
 		} else if os.Args[1] == "-p" || os.Args[1] == "--percent" {
 			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
-				color.New(color.FgRed, color.Bold).Println("Error: Only two arguments needed")
+				fmt.Println(escape.Vint(31, 1) + "Error: Only two arguments needed" + escape.Vint(0))
 			} else {
 				nums := intArr(os.Args[2:])
 				dispBar([]int{nums[0], nums[1]-nums[0]}, bar)
 			}
 		} else if os.Args[1] == "-ps" || os.Args[1] == "--percentscale"{
 			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
-				color.New(color.FgRed, color.Bold).Println("Error: Only two arguments needed")
+				fmt.Println(escape.Vint(31, 1) + "Error: Only two arguments needed" + escape.Vint(0))
 			} else {
 				nums := intArr(os.Args[2:])
 				scaleBar([]int{nums[0], nums[1]-nums[0]}, 30)
 			}
 		} else if strings.Contains(os.Args[1], "-ps=") || strings.Contains(os.Args[1], "-percentscale=") {
 			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
-				color.New(color.FgRed, color.Bold).Println("Error: Only two arguments needed")
+				fmt.Println(escape.Vint(31, 1) + "Error: Only two arguments needed" + escape.Vint(0))
 			} else {
 				nums := intArr(os.Args[2:])
 				size, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
