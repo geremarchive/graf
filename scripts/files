@@ -1,6 +1,0 @@
-#!/bin/sh
-
-total=$(ls | wc -l)
-files=$(ls *.${1} | wc -l)
-
-graf -ps=40 $files $total
