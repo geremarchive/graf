@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-	"math/rand"
 	"strconv"
-	"time"
 	"strings"
-	"escape"
+	"github.com/geremachek/escape"
+	fu "./funcs"
 )
 
 var (
@@ -17,63 +16,13 @@ var (
 
 const bar = "\u2501"
 const err = "Error: Invalid argument! Use the '-h' option for help"
-const helpm = `Usage: graf [NUMBER]...
+const helpm = `Usage: graf [OPTIONS] [NUMBER]...
 Graph data in a visually pleasing way
 
 -h, --help: Display this information.
 -s=n, --scale=n: Scale the bar to a certain size, the default is 30.
 -p, --percent: Get a percentage graph.
--ps=n, --percentscale=n`
-
-func intArr(strNums []string) (out []int) {
-	for _, elem := range strNums {
-		num, _ := strconv.Atoi(elem)
-		out = append(out, num)
-	}
-	return
-}
-
-func intArr2(floatNums []float64) (out []int) {
-	for _, elem := range floatNums {
-		out = append(out, int(elem))
-	}
-	return
-}
-
-func total(nums []int) (out int) {
-	for _, elem := range nums {
-		out = out + elem
-	}
-	return
-}
-
-func dispBar(nums []int, char string) {
-	rn := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for _, elem := range nums {
-		var (
-			r int = rn.Intn(255)
-			g int = rn.Intn(255)
-			b int = rn.Intn(255)
-		)
-
-		for i := 0; i < elem; i++ {
-			fmt.Print(escape.Vint(38, 2, r, g, b) + char + escape.Vint(0))
-		}
-	}
-
-	fmt.Println("")
-}
-
-func scaleBar(data []int, size float64) {
-	total := total(data)
-	var fractions []float64
-
-	for _, elem := range data {
-		fractions = append(fractions, (float64(elem)/float64(total))*size)
-	}
-
-	dispBar(intArr2(fractions), bar)
-}
+-ps=n, --percentscale=n: Scale the percent bar.`
 
 func main() {
 	if len(os.Args) == 1 {
@@ -82,34 +31,34 @@ func main() {
 		if os.Args[1] == "-h" || os.Args[1] == "--help" {
 			fmt.Println(helpm)
 		} else if os.Args[1] == "-s" || os.Args[1] == "--scale" {
-			scaleBar(intArr(os.Args[2:]), 30)
+			fu.ScaleBar(fu.IntArr(os.Args[2:]), 30, bar)
 		} else if os.Args[1] == "-p" || os.Args[1] == "--percent" {
 			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
 				fmt.Println(escape.Vint(31, 1) + "Error: Only two arguments needed" + escape.Vint(0))
 			} else {
-				nums := intArr(os.Args[2:])
-				dispBar([]int{nums[0], nums[1]-nums[0]}, bar)
+				nums := fu.IntArr(os.Args[2:])
+				fu.DispBar([]int{nums[0], nums[1]-nums[0]}, bar)
 			}
 		} else if os.Args[1] == "-ps" || os.Args[1] == "--percentscale"{
 			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
 				fmt.Println(escape.Vint(31, 1) + "Error: Only two arguments needed" + escape.Vint(0))
 			} else {
-				nums := intArr(os.Args[2:])
-				scaleBar([]int{nums[0], nums[1]-nums[0]}, 30)
+				nums := fu.IntArr(os.Args[2:])
+				fu.ScaleBar([]int{nums[0], nums[1]-nums[0]}, 30, bar)
 			}
 		} else if strings.Contains(os.Args[1], "-ps=") || strings.Contains(os.Args[1], "-percentscale=") {
 			if len(os.Args[2:]) > 2 || len(os.Args[2:]) <= 1 {
 				fmt.Println(escape.Vint(31, 1) + "Error: Only two arguments needed" + escape.Vint(0))
 			} else {
-				nums := intArr(os.Args[2:])
+				nums := fu.IntArr(os.Args[2:])
 				size, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
-				scaleBar([]int{nums[0], nums[1]-nums[0]}, float64(size))
+				fu.ScaleBar([]int{nums[0], nums[1]-nums[0]}, float64(size), bar)
 			}
 		} else if strings.Contains(os.Args[1], "-s=") || strings.Contains(os.Args[1], "-scale=") {
 			size, _ := strconv.Atoi(strings.Split(os.Args[1], "=")[1])
-			scaleBar(intArr(os.Args[1:]), float64(size))
+			fu.ScaleBar(fu.IntArr(os.Args[1:]), float64(size), bar)
 		} else {
-			dispBar(intArr(os.Args[1:]), bar)
+			fu.DispBar(fu.IntArr(os.Args[1:]), bar)
 		}
 	}
 }
