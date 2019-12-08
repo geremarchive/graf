@@ -1,7 +1,7 @@
 <h1 align="center">graf 📊</h1>
 
 <p align="center">A CLI data grapher</center>
-
+<br><br>
 <img align="center" src="graf.png">
 
 # What is it?
