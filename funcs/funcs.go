@@ -2,9 +2,7 @@ package funcs
 
 import (
 	"fmt"
-	"math/rand"
 	"strconv"
-	"time"
 	"github.com/geremachek/escape"
 )
 
@@ -30,24 +28,21 @@ func Total(nums []int) (out int) {
 	return
 }
 
-func DispBar(nums []int, char string) {
-	rn := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for _, elem := range nums {
-		var (
-			r int = rn.Intn(255)
-			g int = rn.Intn(255)
-			b int = rn.Intn(255)
-		)
-
+func DispBar(nums []int) {
+	for c, elem := range nums {
 		for i := 0; i < elem; i++ {
-			fmt.Print(escape.Vint(38, 2, r, g, b) + char + escape.Vint(0))
+			if c % 2 == 0 {
+				fmt.Print("━" + escape.Vint(0))
+			} else {
+				fmt.Print("-" + escape.Vint(0))
+			}
 		}
 	}
 
 	fmt.Println("")
 }
 
-func ScaleBar(data []int, size float64, char string) {
+func ScaleBar(data []int, size float64) {
 	total := Total(data)
 	var fractions []float64
 
@@ -55,5 +50,5 @@ func ScaleBar(data []int, size float64, char string) {
 		fractions = append(fractions, (float64(elem)/float64(total))*size)
 	}
 
-	DispBar(IntArr2(fractions), char)
+	DispBar(IntArr2(fractions))
 }

@@ -1,14 +1,12 @@
-# graf
+<h1 align="center">graf 📊</h1>
 
-A CLI data grapher
+<p align="center">A CLI data grapher</center>
+
+<img align="center" src="graf.png">
 
 # What is it?
 
-Graf is a simple program that allows you to turn any numerical data into fraction bar or percent bar for use in scripts.
-
-# Picture
-
-![graf](https://raw.githubusercontent.com/geremachek/graf/master/graf.png)
+```graf``` is a simple program that allows you to turn any numerical data into fraction bar or percent bar for use in scripts.
 
 # Usage
 
