@@ -1,21 +1,16 @@
 <h1 align="center">graf 📊</h1>
 
-<p align="center">A CLI data grapher</center>
+<p align="center">Display colorful representations of data</p>
 <br><br>
-<img align="center" src="graf.png">
+<p align="center"><img src="media/scrot.png"></p>
 
-# What is it?
-
-```graf``` is a simple program that allows you to turn any numerical data into fraction bar or percent bar for use in scripts.
-
-# Usage
+**Usage:**
 
 ```
-Usage: graf [NUMBER]...
-Graph data in a visually pleasing way
+Usage: graf [OPTION] [NUMBER]...
+Display colorful representations of data
 
--h, --help: Display this information.
--s=n, --scale=n: Scale the bar to a certain size, the default is 30.
--p, --percent: Get a percentage graph.
--ps=n, --percentscale=n
+--help, -h: Display this information
+--size=[NUMBER], -s: Change the bar's size
+--percent, -p: Generate a percent bar
 ```
