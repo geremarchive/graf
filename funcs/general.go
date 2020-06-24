@@ -2,9 +2,12 @@ package funcs
 
 import (
 	"fmt"
+	"os"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
+	"bufio"
 	"github.com/geremachek/escape"
 )
 
@@ -63,6 +66,20 @@ func ConvertArgs(args []string) (out []int, err error) {
 
 		out = append(out, int(num))
 	}
+
+	return
+}
+
+func GetStdin() (elems []string, err error) {
+	scanner := bufio.NewScanner(os.Stdin)
+
+	for scanner.Scan() {
+		for _, elem := range strings.Split(scanner.Text(), " ") {
+			elems = append(elems, elem)
+		}
+	}
+
+	err = scanner.Err()
 
 	return
 }

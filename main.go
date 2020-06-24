@@ -18,21 +18,37 @@ func main() {
 	if len(os.Args) == 2 {
 		if os.Args[1] == "--help" || os.Args[1] == "-h" {
 			fmt.Println(help)
-			os.Exit(0)
+			return
 		}
 	}
 
-	var size int
+	var (
+		size int
+		err error
+		nargs []int
+	)
 
 	flag.IntVarP(&size, "size", "s", 1, "Change the bar's size")
 	percent := flag.BoolP("percent", "p", false, "Generate a percent bar")
 
 	flag.Parse()
 
-	nargs, err := fu.ConvertArgs(flag.Args())
+	if len(flag.Args()) == 0 {
+		stdin, e := fu.GetStdin()
+
+		if e != nil {
+			fmt.Println("graf: couldn't read stdin")
+			return
+		}
+
+		nargs, err = fu.ConvertArgs(stdin)
+	} else {
+		nargs, err = fu.ConvertArgs(flag.Args())
+	}
 
 	if err != nil {
-		panic(err)
+		fmt.Println("graf: invalid input")
+		return
 	}
 
 	if *percent {

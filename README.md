@@ -14,3 +14,5 @@ Display colorful representations of data
 --size=[NUMBER], -s: Change the bar's size
 --percent, -p: Generate a percent bar
 ```
+
+```graf``` will also accept data from ```stdin``` if no data is supplied via commandline arguments
